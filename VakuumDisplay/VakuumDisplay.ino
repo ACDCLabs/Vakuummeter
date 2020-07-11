@@ -99,14 +99,18 @@ void loop()
   String message = "";
   char messageCharArray[32];
 
+
+
+  delay(50);
+  message = "";
+
+
   mySerial.print("R");
   //delay(30);
   mySerial.print("V");
   //delay(30);
   mySerial.write('\r');
 
-  delay(50);
-  message = "";
 
   while (mySerial.available()) {
     char responseChar = mySerial.read();
@@ -114,15 +118,15 @@ void loop()
     message += responseChar;
   }
 
-  message.toCharArray(messageCharArray,32);
-  display.printFixed(5, 95, messageCharArray);
+  //message.toCharArray(messageCharArray, 32);
+  //display.printFixed(5, 100, messageCharArray);
 
 
   //Serial.println();
 
   // delay(100);
-  //Serial.print("Message:");
-  //Serial.println(message);
+  Serial.print("Message:");
+  Serial.println(message);
 
   int8_t startParseIndex = 0;
 
@@ -178,6 +182,9 @@ void loop()
         else counter = 0;
 
     */
+
+
+
     pressureValueString = "";
     pressureValueExponentString = "";
 
@@ -189,11 +196,6 @@ void loop()
     pressureVal.mantisse = message.substring(startParseIndex, message.length() - 3).toFloat();
     pressureVal.exponent = message.substring(message.indexOf("E") + 1, message.length()).toInt();
 
-    // pressureVal.mantisse = counter;
-
-
-    // pressureVal.mantisse =2.09;
-    // pressureVal.exponent = -3;
 
     pressureValueString += pressureVal.mantisse ;
     pressureValueExponentString = + pressureVal.exponent;
@@ -230,8 +232,9 @@ void loop()
     display.printFixed(textXpos + 70, textYpos + 72, pressureValueExponentCharArray, STYLE_NORMAL);
     display.setFixedFont(ssd1306xled_font8x16);
     //display.setFixedFont(free_calibri11x12_latin);
-    display.printFixed(textXpos + 42,  textYpos + 90, "mbar", STYLE_NORMAL);
-    Serial.println(pressureValueCharArray);
+    // display.printFixed(textXpos + 42,  textYpos + 90, "mbar", STYLE_NORMAL);
+
+    //Serial.println(pressureValueCharArray);
 
 
 

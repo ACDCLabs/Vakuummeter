@@ -1,8 +1,8 @@
 
 #include "lcdgfx.h"
-#include "VakuumDisplay.h"
-//#include <SoftwareSerial.h>
-#include <AltSoftSerial.h>
+//#include "VakuumDisplay.h"
+#include <SoftwareSerial.h>
+//#include <AltSoftSerial.h>
 // #include "SchulVokalFont.h"
 
 DisplaySSD1327_128x128_SPI display(3, { -1, 4, 5, 0, -1, -1}); // Use this line for Atmega328p (3=RST, 4=CE, 5=D/C)
@@ -34,16 +34,16 @@ DisplaySSD1327_128x128_SPI display(3, { -1, 4, 5, 0, -1, -1}); // Use this line 
 */
 
 
-//SoftwareSerial mySerial(8, 9); // RX , TX
+SoftwareSerial mySerial(8, 9); // RX , TX
 
 
-AltSoftSerial mySerial;
+//AltSoftSerial mySerial;
 
 //String command;
 unsigned long int previousMillis = 0;
 // int counter = 0;
 // unsigned long currentMillis =0;
-int interval = 500; // millies
+int interval = 1000; // millies
 
 enum OperatingMode  {
   Pirani,
@@ -101,7 +101,7 @@ void loop()
 
 
 
-  delay(50);
+  // delay(1000);
   message = "";
 
 
@@ -110,11 +110,14 @@ void loop()
   mySerial.print("V");
   //delay(30);
   mySerial.write('\r');
-
-
+  delay(300);
+  
+  //Serial.println("MSG: ");
+  //Serial.print("Bytes Available: ");
+  Serial.println(mySerial.available());
   while (mySerial.available()) {
     char responseChar = mySerial.read();
-    //Serial.write(responseChar);
+    //Serial.print(responseChar);
     message += responseChar;
   }
 
@@ -124,7 +127,7 @@ void loop()
 
   //Serial.println();
 
-  // delay(100);
+  delay(100);
   Serial.print("Message:");
   Serial.println(message);
 
@@ -232,7 +235,7 @@ void loop()
     display.printFixed(textXpos + 70, textYpos + 72, pressureValueExponentCharArray, STYLE_NORMAL);
     display.setFixedFont(ssd1306xled_font8x16);
     //display.setFixedFont(free_calibri11x12_latin);
-    // display.printFixed(textXpos + 42,  textYpos + 90, "mbar", STYLE_NORMAL);
+    display.printFixed(textXpos + 42,  textYpos + 90, "mbar", STYLE_NORMAL);
 
     //Serial.println(pressureValueCharArray);
 
